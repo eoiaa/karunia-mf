@@ -78,6 +78,12 @@ defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database 
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
 
+defined('EMAIL_ALAMAT') || define('EMAIL_ALAMAT', 'radityafasya2jz@gmail.com');
+defined('EMAIL_NAMA') || define('EMAIL_NAMA', 'Radithya Zuhayr');
+defined('EMAIL_PASSWORD') || define('EMAIL_PASSWORD', 'bfij shmq zcwr hcvx');
+
+defined('LOKASI_UPLOAD') || define('LOKASI_UPLOAD', 'upload');
+
 /**
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_LOW instead.
  */

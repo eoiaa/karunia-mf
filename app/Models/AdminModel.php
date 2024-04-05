@@ -4,13 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AdminModel extends Model{
+class AdminModel extends Model
+{
     protected $table = "admin";
     protected $primaryKey = "email";
     protected $allowedFields = ['username', 'password', 'nama_lengkap', 'token'];
 
     //mengambil data
-    public function getData($parameter){
+    public function getData($parameter)
+    {
         $builder = $this->table($this->table);
         $builder->where('username=', $parameter);
         $builder->orWhere('email=', $parameter);
@@ -19,11 +21,12 @@ class AdminModel extends Model{
     }
 
     //update data
-    public function updateData($data){
+    public function updateData($data)
+    {
         $builder = $this->table($this->table);
-        if($builder->save($data)){
+        if ($builder->save($data)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

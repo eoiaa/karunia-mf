@@ -24,6 +24,8 @@ class Pager extends BaseConfig
         'default_full'   => 'CodeIgniter\Pager\Views\default_full',
         'default_simple' => 'CodeIgniter\Pager\Views\default_simple',
         'default_head'   => 'CodeIgniter\Pager\Views\default_head',
+        'datatable'     => 'App\Views\Pager\datatable',
+        'datatable_user'     => 'App\Views\Pager\datatable_user'
     ];
 
     /**
