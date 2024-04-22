@@ -6,7 +6,7 @@
 
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Blog</h2>
-                <ol>
+                <ol>article
                     <li><a href="index.html">Home</a></li>
                     <li>Blog</li>
                 </ol>
@@ -23,16 +23,15 @@
 
                 <div class="col-lg-8 entries">
                     <?php
-                    foreach ($record as $value) {
+                    foreach ($record as $key => $value) {
                     ?>
                         <article class="entry">
-                            <?php
-                            if (isset($post_thumbnail)) {
-                            ?>
-                                <div class="entry-img">
-                                    <img src="<?php echo base_url(LOKASI_UPLOAD . "/" . $post_thumbnail) ?>" alt="" class="img-fluid">
-                                </div>
-                            <?php } ?>
+
+                            <div class="entry-img">
+                                <img src="/upload/<?php echo $value['post_thumbnail'] ?>" alt="" class="img-fluid">
+                                <p><?php echo $value['post_thumbnail'] ?></p>
+                            </div>
+
 
                             <h2 class="entry-title">
                                 <a href="blog-single.html"><?php echo (isset($value['post_title'])) ? $value['post_title'] : '' ?></a>

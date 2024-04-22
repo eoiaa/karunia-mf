@@ -72,11 +72,11 @@ $templateSubJudul = "Form Tambah Page";
                         </div>
                         <div class="row mb-3">
                             <div class="col lg-3">
-                                <input type="checkbox" name="set_halaman_depan" value="1" <?php echo (isset('set_halaman_depan')) ? 'checked' : '' ?>>
+                                <input type='checkbox' name="set_halaman_depan" value="1" <?php echo (isset($set_halaman_depan)) ? 'checked' : '' ?> />
                                 Halaman Depan?
                             </div>
                             <div class="col lg-3">
-                                <input type="checkbox" name="set_halaman_kontak" value="1" <?php echo (isset('set_halaman_kontak')) ? 'checked' : '' ?>>
+                                <input type='checkbox' name="set_halaman_kontak" value="1" <?php echo (isset($set_halaman_kontak)) ? 'checked' : '' ?> />
                                 Halaman Kontak?
                             </div>
                         </div>

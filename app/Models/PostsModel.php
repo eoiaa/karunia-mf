@@ -32,6 +32,7 @@ class PostsModel extends Model
     public function insertPost($data, $post_type)
     {
         helper('global_fungsi_helper');
+
         $builder = $this->table($this->table);
         $data['post_type'] = $post_type;
 

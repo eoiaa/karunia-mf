@@ -30,6 +30,10 @@ $routes->group('admins', ['filter' => 'auth'], function ($routes) {
     $routes->add('page/tambah', 'Page::tambah');
     $routes->add('page/edit/(:any)', 'Page::edit/$1');
 
+    $routes->add('jumbotron', 'Jumbotron::index');
+    $routes->add('jumbotron/tambah', 'Jumbotron::tambah');
+    $routes->add('jumbotron/edit/(:any)', 'Jumbotron::edit/$1');
+
     $routes->add('socials', 'Socials::index');
 
     $routes->add('akun', 'Akun::index');

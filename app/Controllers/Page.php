@@ -106,39 +106,39 @@ class Page extends BaseController
                     //masuk konfigurasi
                     $set_halaman_depan = $this->request->getVar('set_halaman_depan');
                     $set_halaman_kontak = $this->request->getVar('set_halaman_kontak');
-                    $page_id_depan = '';
-                    $page_id_kontak = '';
+
                     helper('global_fungsi_helper');
+
                     //set halaman depan
-                    $konfigurasi_name = 'set_halaman_depan';
-                    $dataGet = konfigurasi_get($konfigurasi_name);
+                    $dataGet = konfigurasi_get('set_halaman_depan');
+                    $konfig_data = isset($dataGet['konfigurasi_value']);
+
                     if ($set_halaman_depan == '1') {
                         $page_id_depan = $page_id;
                     }
-                    if (isset($dataGet['konfigurasi_value']) == $page_id && $set_halaman_depan != '1') {
+                    if ($konfig_data == $page_id && $set_halaman_depan != '1') {
                         $page_id_depan = '';
                     }
                     $dataSet = [
                         'konfigurasi_value' => $page_id_depan
                     ];
-                    konfigurasi_set($konfigurasi_name, $dataSet);
+                    konfigurasi_set('set_halaman_depan', $dataSet);
 
                     //set halaman kontak
-                    $konfigurasi_name = 'set_halaman_kontak';
-                    $dataGet = konfigurasi_get($konfigurasi_name);
+                    $dataGet = konfigurasi_get('set_halaman_kontak');
+                    $konfig_data = isset($dataGet['konfigurasi_value']);
 
                     if ($set_halaman_kontak == '1') {
                         $page_id_kontak = $page_id;
                     }
-                    if (isset($dataGet['konfigurasi_value']) == $page_id && $set_halaman_kontak != '1') {
+                    if ($konfig_data == $page_id && $set_halaman_kontak != '1') {
                         $page_id_kontak = '';
                     }
                     $dataSet = [
                         'konfigurasi_value' => $page_id_kontak
                     ];
-                    konfigurasi_set($konfigurasi_name, $dataSet);
+                    konfigurasi_set('set_halaman_kontak', $dataSet);
                     //selesai konfigurasi
-
 
                     if ($file->getName()) {
                         $lokasi_direktori = LOKASI_UPLOAD;
@@ -231,11 +231,13 @@ class Page extends BaseController
                     //set halaman depan
                     $konfigurasi_name = 'set_halaman_depan';
                     $dataGet = konfigurasi_get($konfigurasi_name);
+                    $konfig_data = isset($dataGet['konfigurasi_value']);
+
                     if ($set_halaman_depan == '1') {
                         $page_id_depan = $page_id;
                     }
-                    if (isset($dataGet['konfigurasi_value']) == $page_id && $set_halaman_depan != '1') {
-                        $page_id_depan = '';
+                    if ($konfig_data == $page_id && $set_halaman_depan != '1') {
+                        $page_id_depan = null;
                     }
                     $dataSet = [
                         'konfigurasi_value' => $page_id_depan
@@ -245,12 +247,13 @@ class Page extends BaseController
                     //set halaman kontak
                     $konfigurasi_name = 'set_halaman_kontak';
                     $dataGet = konfigurasi_get($konfigurasi_name);
+                    $konfig_data = isset($dataGet['konfigurasi_value']);
 
                     if ($set_halaman_kontak == '1') {
                         $page_id_kontak = $page_id;
                     }
-                    if (isset($dataGet['konfigurasi_value']) == $page_id && $set_halaman_kontak != '1') {
-                        $page_id_kontak = '';
+                    if ($konfig_data == $page_id && $set_halaman_kontak != '1') {
+                        $page_id_kontak = null;
                     }
                     $dataSet = [
                         'konfigurasi_value' => $page_id_kontak
@@ -275,13 +278,21 @@ class Page extends BaseController
                 }
             }
         }
+        $konfigurasi_name = 'set_halaman_depan';
+        $dataGet = konfigurasi_get($konfigurasi_name);
 
+        $konfig_data = isset($dataGet['konfigurasi_value']);
         $dataGet = konfigurasi_get('set_halaman_depan');
-        if (isset($dataGet['konfigurasi_value']) == $post_id) {
+        if ($konfig_data == $post_id) {
             $data['set_halaman_depan'] = 1;
         }
+
+        $konfigurasi_name = 'set_halaman_depan';
+        $dataGet = konfigurasi_get($konfigurasi_name);
+
+        $konfig_data = isset($dataGet['konfigurasi_value']);
         $dataGet = konfigurasi_get('set_halaman_kontak');
-        if (isset($dataGet['konfigurasi_value']) == $post_id) {
+        if ($konfig_data == $post_id) {
             $data['set_halaman_kontak'] = 1;
         }
 

@@ -83,6 +83,7 @@ defined('EMAIL_NAMA') || define('EMAIL_NAMA', 'Radithya Zuhayr');
 defined('EMAIL_PASSWORD') || define('EMAIL_PASSWORD', 'bfij shmq zcwr hcvx');
 
 defined('LOKASI_UPLOAD') || define('LOKASI_UPLOAD', 'upload');
+defined('LOKASI_UPLOAD_JUMBOTRON') || define('LOKASI_UPLOAD_JUMBOTRON', 'jumbotron');
 
 /**
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_LOW instead.

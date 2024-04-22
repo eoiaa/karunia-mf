@@ -201,8 +201,6 @@ class Article extends BaseController
             }
         }
 
-
-
         echo view('layout-admin/header', $data);
         echo view('layout-admin/navbar', $data);
         echo view('admins/v_article_tambah', $data);

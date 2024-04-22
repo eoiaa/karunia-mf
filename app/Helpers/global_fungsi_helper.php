@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\KonfigurasiModel;
+
 function kirim_email($attachment, $to, $title, $message)
 {
     $email = \Config\Services::email();
@@ -93,10 +95,9 @@ function purify($dirty_html)
     return $clean_html;
 }
 
-//parameter konfigurasi
 function konfigurasi_get($konfigurasi_name)
 {
-    $model = new \App\Models\KonfigurasiModel;
+    $model = new KonfigurasiModel();
     $filter = [
         'konfigurasi_name' => $konfigurasi_name
     ];
@@ -106,10 +107,10 @@ function konfigurasi_get($konfigurasi_name)
 
 function konfigurasi_set($konfigurasi_name, $data_baru)
 {
-    $model = new \App\Models\KonfigurasiModel;
+    $model = new KonfigurasiModel();
     $dataGet = konfigurasi_get($konfigurasi_name);
     $dataUpdate = [
-        'id' => isset($dataGet['id']),
+        'konfigurasi_id' => isset($dataGet['konfigurasi_id']),
         'konfigurasi_name' => $konfigurasi_name,
         'konfigurasi_value' => $data_baru['konfigurasi_value']
     ];

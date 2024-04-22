@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class KonfigurasiModel extends Model
 {
     protected $table = "konfigurasi";
-    protected $primaryKey = "id";
+    protected $primaryKey = "konfigurasi_id";
     protected $allowedFields = ['konfigurasi_name', 'konfigurasi_value'];
 
     //mengambil data
@@ -22,7 +22,7 @@ class KonfigurasiModel extends Model
     //update data
     public function updateData($data)
     {
-        helper("global_fungsi_helper");
+        helper('global_fungsi_helper');
         $builder = $this->table($this->table);
         foreach ($data as $key => $value) {
             $data[$key] = purify($value);
