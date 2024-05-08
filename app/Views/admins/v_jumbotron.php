@@ -59,15 +59,15 @@ $templateSubJudul = "List Jumbotron";
                         <tbody>
                             <?php
                             foreach ($record as $value) {
-                                $jumbotron_id = $value['jumbotron_id'];
-                                $link_edit = site_url("admins/jumbotron/edit/$jumbotron_id");
-                                $link_delete = site_url("admins/jumbotron/?aksi=hapus&jumbotron_id=$jumbotron_id");
+                                $home_id = $value['home_id'];
+                                $link_edit = site_url("admins/jumbotron/edit/$home_id");
+                                $link_delete = site_url("admins/jumbotron/?aksi=hapus&home_id=$home_id");
                             ?>
                                 <tr>
                                     <td><?php echo $nomor ?>.</td>
-                                    <td><img src="/jumbotron/<?php echo $value['jumbotron_image'] ?>" width="200" alt=""></td>
-                                    <td><?php echo $value['jumbotron_title'] ?></td>
-                                    <td><?php echo $value['jumbotron_description'] ?></td>
+                                    <td><img src="/jumbotron/<?php echo $value['home_jumbotron_image'] ?>" width="200" alt=""></td>
+                                    <td><?php echo $value['home_jumbotron_title'] ?></td>
+                                    <td><?php echo $value['home_jumbotron_description'] ?></td>
                                     <td>
                                         <a href="<?php echo $link_edit ?>" class="btn btn-sm btn-warning">Edit</a>
                                         <a href="<?php echo $link_delete ?>" onclick="return confirm('Yakin akan menghapus data ini?')" class="btn btn-sm btn-danger">Del</a>

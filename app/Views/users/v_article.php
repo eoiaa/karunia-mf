@@ -5,10 +5,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Blog</h2>
-                <ol>article
-                    <li><a href="index.html">Home</a></li>
-                    <li>Blog</li>
+                <h2>Update</h2>
+                <ol>
+                    <li><a href="<?php echo site_url('/') ?>">Home</a></li>
+                    <li>Update</li>
                 </ol>
             </div>
 
@@ -24,37 +24,39 @@
                 <div class="col-lg-8 entries">
                     <?php
                     foreach ($record as $key => $value) {
+                        $post_id = $value['post_id'];
+                        if ($value['post_status'] == 'active') {
                     ?>
-                        <article class="entry">
+                            <article class="entry">
 
-                            <div class="entry-img">
-                                <img src="/upload/<?php echo $value['post_thumbnail'] ?>" alt="" class="img-fluid">
-                                <p><?php echo $value['post_thumbnail'] ?></p>
-                            </div>
-
-
-                            <h2 class="entry-title">
-                                <a href="blog-single.html"><?php echo (isset($value['post_title'])) ? $value['post_title'] : '' ?></a>
-                            </h2>
-
-                            <div class="entry-meta">
-                                <ul>
-                                    <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html"><?php echo post_penulis($value['username']) ?></a></li>
-                                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01"><?php echo tanggal_indonesia_user($value['post_time']) ?></time></a></li>
-                                </ul>
-                            </div>
-
-                            <div class="entry-content">
-                                <p>
-                                    <?php echo (isset($value['post_description'])) ? $value['post_description'] : '' ?>
-                                </p>
-                                <div class="read-more">
-                                    <a href="blog-single.html">Read More</a>
+                                <div class="entry-img">
+                                    <img src="/upload/<?php echo $value['post_thumbnail'] ?>" alt="" class="img-fluid">
                                 </div>
-                            </div>
 
-                        </article><!-- End blog entry -->
+
+                                <h2 class="entry-title">
+                                    <a href="<?php echo site_url("detail_update/$post_id") ?>"><?php echo (isset($value['post_title'])) ? $value['post_title'] : '' ?></a>
+                                </h2>
+
+                                <div class="entry-meta">
+                                    <ul>
+                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="<?php echo site_url("detail_update/$post_id") ?>"><?php echo post_penulis($value['username']) ?></a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="<?php echo site_url("detail_update/$post_id") ?>"><time datetime="2020-01-01"><?php echo tanggal_indonesia_user($value['post_time']) ?></time></a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="entry-content">
+                                    <p>
+                                        <?php echo (isset($value['post_description'])) ? $value['post_description'] : '' ?>
+                                    </p>
+                                    <div class="read-more">
+                                        <a href="<?php echo site_url("detail_update/$post_id") ?>">Read More</a>
+                                    </div>
+                                </div>
+
+                            </article><!-- End blog entry -->
                     <?php $nomor++;
+                        }
                     } ?>
 
                     <?php echo $pager->links('ft', 'datatable_user') ?>

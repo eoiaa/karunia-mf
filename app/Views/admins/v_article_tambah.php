@@ -1,6 +1,6 @@
 <?php
-$templateJudul = "Artikel";
-$templateSubJudul = "Form Tambah Artikel";
+$templateJudul = "Update";
+$templateSubJudul = "Form Tambah Update";
 ?>
 <div id="layoutSidenav_content">
     <main>
@@ -69,6 +69,10 @@ $templateSubJudul = "Form Tambah Artikel";
                         <div class="mb-3">
                             <label for="summernote" class="form-label">Konten</label>
                             <textarea class="form-control" name="post_content" id="summernote" rows="10"><?php echo (isset($post_content)) ? $post_content : '' ?></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="input_post_file" class="form-label">File PDF</label>
+                            <input type="file" class="form-control" id="input_post_file" name="post_file">
                         </div>
                         <div>
                             <input class="btn btn-primary" type="submit" name="submit" value="Simpan Data">

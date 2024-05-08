@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\JumbotronModel;
+use App\Models\HomeModel;
 
 class Jumbotron extends BaseController
 {
@@ -10,12 +10,12 @@ class Jumbotron extends BaseController
     {
         $halaman_label = "Jumbotron";
         $data = [];
-        if ($this->request->getVar('aksi') == 'hapus' && $this->request->getVar('jumbotron_id')) {
-            $m_jumbotron = new JumbotronModel();
-            $dataJumbotron = $m_jumbotron->getJumbotron($this->request->getVar('jumbotron_id'));
-            if ($dataJumbotron['jumbotron_id']) {
-                @unlink(LOKASI_UPLOAD_JUMBOTRON . "/" . $dataJumbotron['jumbotron_image']);
-                $aksi = $m_jumbotron->deleteJumbotron($this->request->getVar('jumbotron_id'));
+        if ($this->request->getVar('aksi') == 'hapus' && $this->request->getVar('home_id')) {
+            $m_jumbotron = new HomeModel();
+            $dataJumbotron = $m_jumbotron->getHome($this->request->getVar('home_id'));
+            if ($dataJumbotron['home_id']) {
+                @unlink(LOKASI_UPLOAD_JUMBOTRON . "/" . $dataJumbotron['home_jumbotron_image']);
+                $aksi = $m_jumbotron->deleteHome($this->request->getVar('home_id'));
                 if ($aksi == true) {
                     session()->setFlashdata('success', 'Data Berhasil Dihapus');
                 } else {
@@ -25,14 +25,14 @@ class Jumbotron extends BaseController
             return redirect()->to("admins/jumbotron");
         }
 
-        $m_jumbotron = new JumbotronModel();
+        $m_jumbotron = new HomeModel();
         helper('global_fungsi_helper');
 
         $jumlahBaris = 10;
         $katakunci = $this->request->getVar('katakunci');
         $group_dataset = "dt";
 
-        $hasil = $m_jumbotron->listJumbotron($jumlahBaris, $katakunci, $group_dataset);
+        $hasil = $m_jumbotron->listHome($jumlahBaris, $katakunci, $group_dataset);
 
         $data['record'] = $hasil['record'];
         $data['pager'] = $hasil['pager'];
@@ -52,24 +52,24 @@ class Jumbotron extends BaseController
         $validation = \Config\Services::validation();
         $data = [];
 
-        $m_jumbotron = new JumbotronModel();
+        $m_jumbotron = new HomeModel();
 
         if ($this->request->getMethod() == 'post') {
             $data = $this->request->getVar();
             $aturan = [
-                'jumbotron_image' => [
-                    'rules' => 'is_image[jumbotron_image]',
+                'home_jumbotron_image' => [
+                    'rules' => 'is_image[home_jumbotron_image]',
                     'errors' => [
                         'is_image' => 'Hanya gambar yang boleh diupload'
                     ]
                 ],
-                'jumbotron_title' => [
+                'home_jumbotron_title' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Judul Harus Diisi'
                     ]
                 ],
-                'jumbotron_description' => [
+                'home_jumbotron_description' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Konten Harus Diisi'
@@ -77,30 +77,30 @@ class Jumbotron extends BaseController
                 ],
             ];
 
-            $file = $this->request->getFile('jumbotron_image');
+            $file = $this->request->getFile('home_jumbotron_image');
 
             if (!$this->validate($aturan)) {
                 session()->setFlashdata('warning', $validation->getErrors());
             } else {
-                $jumbotron_image = '';
+                $home_jumbotron_image = '';
                 if ($file->getName()) {
-                    $jumbotron_image = $file->getRandomName();
+                    $home_jumbotron_image = $file->getRandomName();
                 }
                 $record = [
-                    'jumbotron_image' => $jumbotron_image,
-                    'jumbotron_title' => $this->request->getVar('jumbotron_title'),
-                    'jumbotron_description' => $this->request->getVar('jumbotron_description'),
-                    'jumbotron_button_text' => $this->request->getVar('jumbotron_button_text'),
-                    'jumbotron_button_link' => $this->request->getVar('jumbotron_button_link'),
+                    'home_jumbotron_image' => $home_jumbotron_image,
+                    'home_jumbotron_title' => $this->request->getVar('home_jumbotron_title'),
+                    'home_jumbotron_description' => $this->request->getVar('home_jumbotron_description'),
+                    'home_jumbotron_button_text' => $this->request->getVar('home_jumbotron_button_text'),
+                    'home_jumbotron_button_link' => $this->request->getVar('home_jumbotron_button_link'),
                 ];
 
 
-                $aksi = $m_jumbotron->insertJumbotron($record);
+                $aksi = $m_jumbotron->insertHome($record);
                 if ($aksi != false) {
                     $page_id = $aksi;
                     if ($file->getName()) {
                         $lokasi_direktori = LOKASI_UPLOAD_JUMBOTRON;
-                        $file->move($lokasi_direktori, $jumbotron_image);
+                        $file->move($lokasi_direktori, $home_jumbotron_image);
                     }
                     session()->setFlashdata('success', 'Data Berhasil Dimasukkan');
                     return redirect()->to('admins/jumbotron/edit/' . $page_id);
@@ -116,14 +116,14 @@ class Jumbotron extends BaseController
         echo view('admins/v_jumbotron_tambah', $data);
         echo view('layout-admin/footer', $data);
     }
-    public function edit($jumbotron_id)
+    public function edit($home_id)
     {
         $halaman_label = "Jumbotron";
         $validation = \Config\Services::validation();
         $data = [];
-        $m_jumbotron = new JumbotronModel();
+        $m_jumbotron = new HomeModel();
 
-        $dataJumbotron = $m_jumbotron->getJumbotron($jumbotron_id);
+        $dataJumbotron = $m_jumbotron->getHome($home_id);
         if (empty($dataJumbotron)) {
             return redirect()->to('admins/jumbotron');
         }
@@ -133,19 +133,19 @@ class Jumbotron extends BaseController
         if ($this->request->getMethod() == 'post') {
             $data = $this->request->getVar();
             $aturan = [
-                'jumbotron_image' => [
-                    'rules' => 'is_image[jumbotron_image]',
+                'home_jumbotron_image' => [
+                    'rules' => 'is_image[home_jumbotron_image]',
                     'errors' => [
                         'is_image' => 'Hanya gambar yang boleh diupload'
                     ]
                 ],
-                'jumbotron_title' => [
+                'home_jumbotron_title' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Judul Harus Diisi'
                     ]
                 ],
-                'jumbotron_description' => [
+                'home_jumbotron_description' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Konten Harus Diisi'
@@ -153,34 +153,34 @@ class Jumbotron extends BaseController
                 ],
             ];
 
-            $file = $this->request->getFile('jumbotron_image');
+            $file = $this->request->getFile('home_jumbotron_image');
 
             if (!$this->validate($aturan)) {
                 session()->setFlashdata('warning', $validation->getErrors());
             } else {
-                $jumbotron_image = '';
+                $home_jumbotron_image = '';
                 if ($file->getName()) {
-                    $jumbotron_image = $file->getRandomName();
+                    $home_jumbotron_image = $file->getRandomName();
                 }
                 $record = [
-                    'jumbotron_image' => $jumbotron_image,
-                    'jumbotron_title' => $this->request->getVar('jumbotron_title'),
-                    'jumbotron_description' => $this->request->getVar('jumbotron_description'),
-                    'jumbotron_button_text' => $this->request->getVar('jumbotron_button_text'),
-                    'jumbotron_button_link' => $this->request->getVar('jumbotron_button_link'),
-                    'jumbotron_id' => $jumbotron_id
+                    'home_jumbotron_image' => $home_jumbotron_image,
+                    'home_jumbotron_title' => $this->request->getVar('home_jumbotron_title'),
+                    'home_jumbotron_description' => $this->request->getVar('home_jumbotron_description'),
+                    'home_jumbotron_button_text' => $this->request->getVar('home_jumbotron_button_text'),
+                    'home_jumbotron_button_link' => $this->request->getVar('home_jumbotron_button_link'),
+                    'home_id' => $home_id
                 ];
 
-                $aksi = $m_jumbotron->insertJumbotron($record);
+                $aksi = $m_jumbotron->insertHome($record);
                 if ($aksi != false) {
                     $page_id = $aksi;
                     if ($file->getName()) {
-                        if ($dataJumbotron['jumbotron_image']) {
-                            @unlink(LOKASI_UPLOAD_JUMBOTRON . "/" . $dataJumbotron['jumbotron_image']);
+                        if ($dataJumbotron['home_jumbotron_image']) {
+                            @unlink(LOKASI_UPLOAD_JUMBOTRON . "/" . $dataJumbotron['home_jumbotron_image']);
                         }
 
                         $lokasi_direktori = LOKASI_UPLOAD_JUMBOTRON;
-                        $file->move($lokasi_direktori, $jumbotron_image);
+                        $file->move($lokasi_direktori, $home_jumbotron_image);
                     }
                     session()->setFlashdata('success', 'Data Berhasil Dirubah');
                     return redirect()->to('admins/jumbotron/edit/' . $page_id);

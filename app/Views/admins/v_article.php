@@ -1,6 +1,6 @@
 <?php
-$templateJudul = "Artikel";
-$templateSubJudul = "List Artikel";
+$templateJudul = "Update";
+$templateSubJudul = "List Update";
 ?>
 <div id="layoutSidenav_content">
     <main>
@@ -21,7 +21,7 @@ $templateSubJudul = "List Artikel";
                             </form>
                         </div>
                         <div class="col lg-9 py-1 text-end">
-                            <a href="<?php echo site_url('admins/article/tambah') ?>" class="btn btn-xl btn-primary">Tambah Artikel</a>
+                            <a href="<?php echo site_url('admins/update/tambah') ?>" class="btn btn-xl btn-primary">Tambah Update</a>
                         </div>
                     </div>
                     <?php
@@ -60,8 +60,8 @@ $templateSubJudul = "List Artikel";
                             <?php
                             foreach ($record as $value) {
                                 $post_id = $value['post_id'];
-                                $link_edit = site_url("admins/article/edit/$post_id");
-                                $link_delete = site_url("admins/article/?aksi=hapus&post_id=$post_id");
+                                $link_edit = site_url("admins/update/edit/$post_id");
+                                $link_delete = site_url("admins/update/?aksi=hapus&post_id=$post_id");
                             ?>
                                 <tr>
                                     <td><?php echo $nomor ?>.</td>

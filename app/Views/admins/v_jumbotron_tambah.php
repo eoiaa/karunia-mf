@@ -39,33 +39,33 @@ $templateSubJudul = "Form Tambah Jumbotron";
                     ?>
                     <form action="" method="POST" enctype="multipart/form-data">
                         <?php
-                        if (isset($jumbotron_image)) {
+                        if (isset($home_jumbotron_image)) {
                         ?>
                             <div class="mb-3">
-                                <img src="<?php echo base_url(LOKASI_UPLOAD_JUMBOTRON . "/" . $jumbotron_image) ?>" class="pb-2 mb-2 img-thumbnail w-50" alt="">
+                                <img src="<?php echo base_url(LOKASI_UPLOAD_JUMBOTRON . "/" . $home_jumbotron_image) ?>" class="pb-2 mb-2 img-thumbnail w-50" alt="">
                             </div>
                         <?php
                         }
                         ?>
                         <div class="mb-3">
-                            <label for="input_jumbotron_image" class="form-label">Thumbnail</label>
-                            <input type="file" class="form-control" id="input_jumbotron_image" name="jumbotron_image">
+                            <label for="input_home_jumbotron_image" class="form-label">Thumbnail</label>
+                            <input type="file" class="form-control" id="input_home_jumbotron_image" name="home_jumbotron_image">
                         </div>
                         <div class="mb-3">
-                            <label for="input_jumbotron_title" class="form-label">Judul Jumbotron</label>
-                            <input type="text" class="form-control" id="input_jumbotron_title" name="jumbotron_title" value="<?php echo (isset($jumbotron_title)) ? $jumbotron_title : "" ?>">
+                            <label for="input_home_jumbotron_title" class="form-label">Judul Jumbotron</label>
+                            <input type="text" class="form-control" id="input_home_jumbotron_title" name="home_jumbotron_title" value="<?php echo (isset($home_jumbotron_title)) ? $home_jumbotron_title : "" ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="input_jumbotron_description" class="form-label">Deskripsi Jumbotron</label>
-                            <textarea class="form-control" name="jumbotron_description" id="input_jumbotron_description" rows="2"><?php echo (isset($jumbotron_description)) ? $jumbotron_description : '' ?></textarea>
+                            <label for="input_home_jumbotron_description" class="form-label">Deskripsi Jumbotron</label>
+                            <textarea class="form-control" name="home_jumbotron_description" id="input_home_jumbotron_description" rows="2"><?php echo (isset($home_jumbotron_description)) ? $home_jumbotron_description : '' ?></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="input_jumbotron_button_text" class="form-label">Button Text</label>
-                            <input type="text" class="form-control" id="input_jumbotron_button_text" name="jumbotron_button_text" value="<?php echo (isset($jumbotron_button_text)) ? $jumbotron_button_text : "" ?>">
+                            <label for="input_home_jumbotron_button_text" class="form-label">Button Text</label>
+                            <input type="text" class="form-control" id="input_home_jumbotron_button_text" name="home_jumbotron_button_text" value="<?php echo (isset($home_jumbotron_button_text)) ? $home_jumbotron_button_text : "" ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="input_jumbotron_button_link" class="form-label">Button Link</label>
-                            <input type="text" class="form-control" id="input_jumbotron_button_link" name="jumbotron_button_link" value="<?php echo (isset($jumbotron_button_link)) ? $jumbotron_button_link : "" ?>">
+                            <label for="input_home_jumbotron_button_link" class="form-label">Button Link</label>
+                            <input type="text" class="form-control" id="input_home_jumbotron_button_link" name="home_jumbotron_button_link" value="<?php echo (isset($home_jumbotron_button_link)) ? $home_jumbotron_button_link : "" ?>">
                         </div>
                         <div>
                             <input class="btn btn-primary" type="submit" name="submit" value="Simpan Data">

@@ -1,0 +1,12 @@
+ <?php
+   $koneksi = mysqli_connect('localhost', 'root', '', 'karunia_mf');
+
+   $dataArtikel = mysqli_query($koneksi, "SELECT * FROM posts WHERE post_type = 'article'");
+
+   $jumlahArtikel = mysqli_num_rows($dataArtikel);
+   ?>
+ <?php
+   if (!$jumlahArtikel >= 1) {
+   ?>
+    <a href="<?php echo site_url('admins/article/tambah') ?>" class="btn btn-xl btn-primary">Tambah Artikel</a>
+ <?php } ?>

@@ -83,7 +83,12 @@ defined('EMAIL_NAMA') || define('EMAIL_NAMA', 'Radithya Zuhayr');
 defined('EMAIL_PASSWORD') || define('EMAIL_PASSWORD', 'bfij shmq zcwr hcvx');
 
 defined('LOKASI_UPLOAD') || define('LOKASI_UPLOAD', 'upload');
+defined('LOKASI_UPLOAD_FILE') || define('LOKASI_UPLOAD_FILE', 'pdf_content');
 defined('LOKASI_UPLOAD_JUMBOTRON') || define('LOKASI_UPLOAD_JUMBOTRON', 'jumbotron');
+defined('LOKASI_UPLOAD_MANAGEMENT_TEAM') || define('LOKASI_UPLOAD_MANAGEMENT_TEAM', 'management_team');
+defined('LOKASI_UPLOAD_SERVICE_IMAGE') || define('LOKASI_UPLOAD_SERVICE_IMAGE', 'services_image');
+defined('LOKASI_UPLOAD_BRAND') || define('LOKASI_UPLOAD_BRAND', 'brand');
+defined('LOKASI_UPLOAD_ACHIEVEMENT') || define('LOKASI_UPLOAD_ACHIEVEMENT', 'achievement');
 
 /**
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_LOW instead.

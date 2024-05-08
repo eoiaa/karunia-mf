@@ -1,0 +1,171 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\HomeDescriptionModel;
+
+class HomeDescription extends BaseController
+{
+    public function index()
+    {
+        $halaman_label = "Home Description";
+        $data = [];
+        if ($this->request->getVar('aksi') == 'hapus' && $this->request->getVar('home_description_id')) {
+            $m_home_description = new HomeDescriptionModel();
+            $dataHomeDescription = $m_home_description->getHomeDescription($this->request->getVar('home_description_id'));
+            if ($dataHomeDescription['home_description_id']) {
+                $aksi = $m_home_description->deleteHomeDescription($this->request->getVar('home_description_id'));
+                if ($aksi == true) {
+                    session()->setFlashdata('success', 'Data Berhasil Dihapus');
+                } else {
+                    session()->setFlashdata('warning', ['Data Gagal Dihapus']);
+                }
+            }
+            return redirect()->to("admins/home_description");
+        }
+
+        $m_home_description = new HomeDescriptionModel();
+        helper('global_fungsi_helper');
+
+        $jumlahBaris = 10;
+        $katakunci = $this->request->getVar('katakunci');
+        $group_dataset = "dt";
+
+        $hasil = $m_home_description->listHomeDescription($jumlahBaris, $katakunci, $group_dataset);
+
+        $data['record'] = $hasil['record'];
+        $data['pager'] = $hasil['pager'];
+        $data['katakunci'] = $katakunci;
+
+        $currentPage = $this->request->getVar('page_dt');
+        $data['nomor'] = nomor($currentPage, $jumlahBaris);
+
+        echo view('layout-admin/header', $data);
+        echo view('layout-admin/navbar', $data);
+        echo view('admins/v_home_description', $data);
+        echo view('layout-admin/footer', $data);
+    }
+    public function tambah()
+    {
+        $halaman_label = "Home Description";
+        $validation = \Config\Services::validation();
+        $data = [];
+
+        $m_home_description = new HomeDescriptionModel();
+
+        if ($this->request->getMethod() == 'post') {
+            $data = $this->request->getVar();
+            $aturan = [
+                'home_description_title' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Judul Harus Diisi'
+                    ]
+                ],
+                'home_description_desc' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Konten Harus Diisi'
+                    ]
+                ],
+                'home_description_right_section' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Bagian Kanan Harus Diisi'
+                    ]
+                ]
+            ];
+
+            if (!$this->validate($aturan)) {
+                session()->setFlashdata('warning', $validation->getErrors());
+            } else {
+                $record = [
+                    'home_description_title' => $this->request->getVar('home_description_title'),
+                    'home_description_desc' => $this->request->getVar('home_description_desc'),
+                    'home_description_right_section' => $this->request->getVar('home_description_right_section'),
+                ];
+
+
+                $aksi = $m_home_description->insertHomeDescription($record);
+                if ($aksi != false) {
+                    $page_id = $aksi;
+                    session()->setFlashdata('success', 'Data Berhasil Dimasukkan');
+                    return redirect()->to('admins/home_description/edit/' . $page_id);
+                } else {
+                    session()->setFlashdata('warning', ['Data Gagal Dimasukkan']);
+                    return redirect()->to('admins/home_description/tambah');
+                }
+            }
+        }
+
+        echo view('layout-admin/header', $data);
+        echo view('layout-admin/navbar', $data);
+        echo view('admins/v_home_description_tambah', $data);
+        echo view('layout-admin/footer', $data);
+    }
+    public function edit($home_description_id)
+    {
+        $halaman_label = "Home Description";
+        $validation = \Config\Services::validation();
+        $data = [];
+        $m_home_description = new HomeDescriptionModel();
+
+        $dataHomeDescription = $m_home_description->getHomeDescription($home_description_id);
+        if (empty($dataHomeDescription)) {
+            return redirect()->to('admins/home_description');
+        }
+
+        $data = $dataHomeDescription;
+
+        if ($this->request->getMethod() == 'post') {
+            $data = $this->request->getVar();
+            $aturan = [
+                'home_description_title' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Judul Harus Diisi'
+                    ]
+                ],
+                'home_description_desc' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Konten Harus Diisi'
+                    ]
+                ],
+                'home_description_right_section' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Bagian Kanan Harus Diisi'
+                    ]
+                ]
+            ];
+
+            if (!$this->validate($aturan)) {
+                session()->setFlashdata('warning', $validation->getErrors());
+            } else {
+                $record = [
+                    'home_description_title' => $this->request->getVar('home_description_title'),
+                    'home_description_desc' => $this->request->getVar('home_description_desc'),
+                    'home_description_right_section' => $this->request->getVar('home_description_right_section'),
+                    'home_description_id' => $home_description_id
+                ];
+
+                $aksi = $m_home_description->insertHomeDescription($record);
+                if ($aksi != false) {
+                    $page_id = $aksi;
+                    session()->setFlashdata('success', 'Data Berhasil Dirubah');
+                    return redirect()->to('admins/home_description/edit/' . $page_id);
+                } else {
+                    $page_id = $aksi;
+                    session()->setFlashdata('warning', ['Data Gagal Diubah']);
+                    return redirect()->to('admins/home_description/edit/' . $page_id);
+                }
+            }
+        }
+
+        echo view('layout-admin/header', $data);
+        echo view('layout-admin/navbar', $data);
+        echo view('admins/v_home_description_tambah', $data);
+        echo view('layout-admin/footer', $data);
+    }
+}

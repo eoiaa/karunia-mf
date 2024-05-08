@@ -1,3 +1,9 @@
+<?php
+$directoryURI = $_SERVER['REQUEST_URI'];
+$path = parse_url($directoryURI, PHP_URL_PATH);
+$components = explode('/', $path);
+$page = uri_string()
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +11,47 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Sailor Bootstrap Template - Index</title>
+    <?php
+    $koneksi = mysqli_connect("localhost", "root", "", "karunia_mf");
+    $koneksi->set_charset('utf8mb4');
+    // cek koneksi
+    if (!$koneksi) {
+        die("Error koneksi: " . mysqli_connect_errno());
+    }
+
+    $sql_d = "SELECT post_id FROM posts";
+    $query_d = mysqli_query($koneksi, $sql_d);
+
+    while ($data_d = mysqli_fetch_row($query_d)) {
+        $post_id = $data_d[0];
+        if ($page == "") {
+            $pageName = "Home";
+        } else if ($page == "about") {
+            $pageName = "About";
+        } else if ($page == "services") {
+            $pageName = "Services";
+        } else if ($page == "achievement") {
+            $pageName = "Achievement";
+        } else if ($page == "update") {
+            $pageName = "Update";
+        } else if ($page == "contact") {
+            $pageName = "Contact";
+        } else if ($page == "detail_update/$post_id") {
+            $pageName = "Detail Update";
+        }
+    }
+    ?>
+
+    <title>KMF - <?php echo $pageName ?></title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="<?php echo base_url('user') ?>/assets/img/favicon.png" rel="icon">
+    <link href="<?php
+
+                use CodeIgniter\HTTP\SiteURI;
+
+                echo base_url('user') ?>/assets/img/favicon.png" rel="icon">
     <link href="<?php echo base_url('user') ?>/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -36,6 +77,31 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<style>
+    .paragraph-enter {
+        /* display: block; */
+        white-space: pre-line;
+    }
+
+    .mx-10 {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .mx-10 {
+            margin-left: 40px;
+            margin-right: 40px;
+        }
+    }
+
+    @media only screen and (max-width: 620px) {
+        .mx-10 {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+</style>
 
 <body>
 
@@ -49,32 +115,58 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a href="<?php echo site_url('') ?>" class="active">Home</a></li>
+                    <li><a href="<?php echo site_url('/') ?>" class="<?php if ($page == "") {
+                                                                            echo "active";
+                                                                        } ?>">Home</a></li>
 
-                    <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="<?php echo site_url('about') ?>" class="<?php if ($page == "about") {
+                                                                                                echo "active";
+                                                                                            } ?>"><span>About</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="<?php echo site_url('about') ?>">About</a></li>
-                            <li><a href="team.html">Team</a></li>
-                            <li><a href="testimonials.html">Testimonials</a></li>
-
-                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Drop Down 1</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
-                                    <li><a href="#">Deep Drop Down 3</a></li>
-                                    <li><a href="#">Deep Drop Down 4</a></li>
-                                    <li><a href="#">Deep Drop Down 5</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="<?php echo site_url('about') ?>#about">About</a></li>
+                            <li><a href="<?php echo site_url('about') ?>#vision-mission">Vision and Mission</a></li>
+                            <li><a href="<?php echo site_url('about') ?>#history">Company History</a></li>
+                            <li><a href="<?php echo site_url('about') ?>#team">Team</a></li>
                         </ul>
                     </li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="<?php echo site_url('blog') ?>">Blog</a></li>
 
-                    <li><a href="<?php echo site_url('contact') ?>">Contact</a></li>
-                    <li><a href="index.html" class="getstarted">Get Started</a></li>
+                    <li class="dropdown"><a href="<?php echo site_url('services') ?>" class="<?php if ($page == "services") {
+                                                                                                    echo "active";
+                                                                                                } ?>"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <?php
+                            $sql_s = "SELECT services_id, services_name FROM services";
+                            $query_s = mysqli_query($koneksi, $sql_s);
+                            while ($data_s = mysqli_fetch_row($query_s)) {
+                                $services_id = $data_s[0];
+                                $services_name = $data_s[1];
+                            ?>
+                                <li><a href="<?php echo site_url('services') ?>#accordionContoh<?php echo $services_id ?>"><?php echo $services_name ?></a></li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+
+                    <li><a href="<?php echo site_url('achievement') ?>" class="<?php if ($page == "achievement") {
+                                                                                    echo "active";
+                                                                                } ?>">Achievement</a></li>
+
+                    <li><a href="<?php echo site_url('update') ?>" class="<?php if ($page == "update") {
+                                                                                echo "active";
+                                                                            } else if ($page == "detail_update/$post_id") {
+                                                                                echo "active";
+                                                                            } ?>">Update</a></li>
+
+                    <li><a href="<?php echo site_url('contact') ?>" class="<?php if ($page == "contact") {
+                                                                                echo "active";
+                                                                            } ?>">Contact</a></li>
+
+                    <li><a href="<?php
+                                    if ($page == "") {
+                                        echo "#";
+                                    } else {
+                                        echo site_url('');
+                                    }
+                                    ?>" class="getstarted">Get Started</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

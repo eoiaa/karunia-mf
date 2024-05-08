@@ -16,6 +16,7 @@ class Article extends BaseController
             $dataPost = $m_posts->getPost($this->request->getVar('post_id'));
             if ($dataPost['post_id']) {
                 @unlink(LOKASI_UPLOAD . "/" . $dataPost['post_thumbnail']);
+                @unlink(LOKASI_UPLOAD_FILE . "/" . $dataPost['post_thumbnail']);
                 $aksi = $m_posts->deletePost($this->request->getVar('post_id'));
                 if ($aksi == true) {
                     session()->setFlashdata('success', 'Data Berhasil Dihapus');
@@ -23,7 +24,7 @@ class Article extends BaseController
                     session()->setFlashdata('warning', ['Data Gagal Dihapus']);
                 }
             }
-            return redirect()->to("admins/article");
+            return redirect()->to("admins/update");
         }
 
         $m_posts = new PostsModel();
@@ -66,34 +67,40 @@ class Article extends BaseController
                         'required' => 'Judul Harus Diisi'
                     ]
                 ],
-                'post_content' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Konten Harus Diisi'
-                    ]
-                ],
                 'post_thumbnail' => [
                     'rules' => 'is_image[post_thumbnail]',
                     'errors' => [
                         'is_image' => 'Hanya gambar yang boleh diupload'
                     ]
-                ]
+                ],
+                // 'post_file' => [
+                //     'rules' => 'is_file[post_file]',
+                //     'errors' => [
+                //         'is_file' => 'Hanya File yang boleh diupload'
+                //     ]
+                // ]
             ];
 
             $file = $this->request->getFile('post_thumbnail');
+            $file2 = $this->request->getFile('post_file');
 
             if (!$this->validate($aturan)) {
                 session()->setFlashdata('warning', $validation->getErrors());
             } else {
                 $post_thumbnail = '';
+                $post_file = '';
                 if ($file->getName()) {
                     $post_thumbnail = $file->getRandomName();
+                }
+                if ($file2->getName()) {
+                    $post_file = $file2->getRandomName();
                 }
                 $record = [
                     'username' => session()->get('akun_username'),
                     'post_title' => $this->request->getVar('post_title'),
                     'post_status' => $this->request->getVar('post_status'),
                     'post_thumbnail' => $post_thumbnail,
+                    'post_file' => $post_file,
                     'post_description' => $this->request->getVar('post_description'),
                     'post_content' => $this->request->getVar('post_content'),
                 ];
@@ -104,14 +111,16 @@ class Article extends BaseController
                 if ($aksi != false) {
                     $page_id = $aksi;
                     if ($file->getName()) {
-                        $lokasi_direktori = LOKASI_UPLOAD;
-                        $file->move($lokasi_direktori, $post_thumbnail);
+                        $file->move(LOKASI_UPLOAD, $post_thumbnail);
+                    }
+                    if ($file2->getName()) {
+                        $file2->move(LOKASI_UPLOAD_FILE, $post_file);
                     }
                     session()->setFlashdata('success', 'Data Berhasil Dimasukkan');
-                    return redirect()->to('admins/article/edit/' . $page_id);
+                    return redirect()->to('admins/update/edit/' . $page_id);
                 } else {
                     session()->setFlashdata('warning', ['Data Gagal Dimasukkan']);
-                    return redirect()->to('admins/article/tambah');
+                    return redirect()->to('admins/update/tambah');
                 }
             }
         }
@@ -127,11 +136,12 @@ class Article extends BaseController
         $halaman_label = "Artikel";
         $validation = \Config\Services::validation();
         $data = [];
+
         $m_posts = new PostsModel();
 
         $dataPost = $m_posts->getPost($post_id);
         if (empty($dataPost)) {
-            return redirect()->to('admins/article');
+            return redirect()->to('admins/update');
         }
 
         $data = $dataPost;
@@ -145,34 +155,40 @@ class Article extends BaseController
                         'required' => 'Judul Harus Diisi'
                     ]
                 ],
-                'post_content' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Konten Harus Diisi'
-                    ]
-                ],
                 'post_thumbnail' => [
                     'rules' => 'is_image[post_thumbnail]',
                     'errors' => [
                         'is_image' => 'Hanya gambar yang boleh diupload'
                     ]
-                ]
+                ],
+                // 'post_file' => [
+                //     'rules' => 'is_file[post_file]',
+                //     'errors' => [
+                //         'is_file' => 'Hanya File yang boleh diupload'
+                //     ]
+                // ]
             ];
 
             $file = $this->request->getFile('post_thumbnail');
+            $file2 = $this->request->getFile('post_file');
 
             if (!$this->validate($aturan)) {
                 session()->setFlashdata('warning', $validation->getErrors());
             } else {
                 $post_thumbnail = '';
+                $post_file = '';
                 if ($file->getName()) {
                     $post_thumbnail = $file->getRandomName();
+                }
+                if ($file2->getName()) {
+                    $post_file = $file2->getRandomName();
                 }
                 $record = [
                     'username' => session()->get('akun_username'),
                     'post_title' => $this->request->getVar('post_title'),
                     'post_status' => $this->request->getVar('post_status'),
                     'post_thumbnail' => $post_thumbnail,
+                    'post_file' => $post_file,
                     'post_description' => $this->request->getVar('post_description'),
                     'post_content' => $this->request->getVar('post_content'),
                     'post_id' => $post_id
@@ -187,16 +203,20 @@ class Article extends BaseController
                         if ($dataPost['post_thumbnail']) {
                             @unlink(LOKASI_UPLOAD . "/" . $dataPost['post_thumbnail']);
                         }
-
-                        $lokasi_direktori = LOKASI_UPLOAD;
-                        $file->move($lokasi_direktori, $post_thumbnail);
+                        $file->move(LOKASI_UPLOAD, $post_thumbnail);
+                    }
+                    if ($file2->getName()) {
+                        if ($dataPost['post_file']) {
+                            @unlink(LOKASI_UPLOAD_FILE . "/" . $dataPost['post_file']);
+                        }
+                        $file2->move(LOKASI_UPLOAD_FILE, $post_file);
                     }
                     session()->setFlashdata('success', 'Data Berhasil Dirubah');
-                    return redirect()->to('admins/article/edit/' . $page_id);
+                    return redirect()->to('admins/update/edit/' . $page_id);
                 } else {
                     $page_id = $aksi;
                     session()->setFlashdata('warning', ['Data Gagal Diubah']);
-                    return redirect()->to('admins/article/edit/' . $page_id);
+                    return redirect()->to('admins/update/edit/' . $page_id);
                 }
             }
         }

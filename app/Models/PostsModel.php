@@ -8,7 +8,7 @@ class PostsModel extends Model
 {
     protected $table = "posts";
     protected $primaryKey = "post_id";
-    protected $allowedFields = ['username', 'post_title', 'post_title_seo', 'post_status', 'post_type', 'post_thumbnail', 'post_description', 'post_content'];
+    protected $allowedFields = ['username', 'post_title', 'post_title_seo', 'post_status', 'post_type', 'post_thumbnail', 'post_description', 'post_content', 'post_file'];
 
     public function setTitleSeo($title)
     {

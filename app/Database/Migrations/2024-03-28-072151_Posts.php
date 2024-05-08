@@ -23,7 +23,6 @@ class Posts extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
-            //
             'post_title_seo' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255

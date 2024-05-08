@@ -90,7 +90,7 @@ class Admin extends BaseController
         // helper("cookie");
         // print_r(session()->get());
         // return "ISIAN COOKIE USERNAME" . \get_cookie("cookie_username") . "DAN PASSWORD" . \get_cookie("cookie_password");
-        return redirect()->to('admins/article');
+        return redirect()->to('admins/jumbotron');
     }
 
     public function logout()
